@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <style>
+        body {
+            font-family: 'Sofia', sans-serif;
+            background-color: #151617;
+            color: #ecf0f1;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        form {
+            background-color: #202224;
+            padding: 40px;
+            border-radius: 82px;
+            box-shadow: 0 0 40px rgba(255, 251, 0, 0.5);
+            width: 350px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #ecf0f1;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-weight: bold;
+            color: #bdc3c7;
+        }
+
+        input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+            color: #34495e;
+            background-color: #ecf0f1;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 35px;
+            cursor: pointer;
+            width: 23%;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        button:active {
+            background-color: #2471a3;
+        }
+
+        p {
+            margin-top: 20px;
+            color: #bdc3c7;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get form and password input element
+            var form = document.querySelector('form');
+            var usernameInput = document.getElementById('username');
+            var passwordInput = document.getElementById('password');
+            var submitButton = document.querySelector('button');
+			function getRandomNumber(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+            // Add event listener to form submission
+            form.addEventListener('submit', function (event) {
+                // Check if the password is correct (for example, minimum length of 16 characters)
+                if (passwordInput.value.length < 16) {
+                    // Prevent form submission
+                    event.preventDefault();
+                    // Add smooth transition effect
+                    submitButton.style.transition = 'transform 0.3s ease';
+					var randomDirection = getRandomNumber(0, 1); // 0 for left, 1 for right
+
+                    // Move the button away from the mouse randomly
+                    var translation = randomDirection === 0 ? 'translateX(-50px)' : 'translateX(50px)';
+                    submitButton.style.transition = 'transform 0.3s ease';
+                    submitButton.style.transform = translation;
+                } else {
+                    // Reset the button's position if the password is long enough
+                    submitButton.style.transition = 'transform 0.3s ease';
+                    submitButton.style.transform = 'translateX(0)';
+
+                    // Redirect to a new page with the username filled in
+                    var username = usernameInput.value;
+                    window.location.href = 'welcome.html?username=' + encodeURIComponent(username);
+                }
+                // Add more password validation rules as needed
+            });
+
+            // Add event listener to button hover
+            submitButton.addEventListener('mouseenter', function () {
+                // Add your custom behavior when the button is hovered
+                submitButton.style.transition = 'transform 0.3s ease';
+                submitButton.style.transform = 'translateX(0)';
+            });
+
+            submitButton.addEventListener('mouseleave', function () {
+                // Reset the button's position when the mouse leaves
+                submitButton.style.transition = 'transform 0.3s ease';
+                submitButton.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <form action="{{ url_for('welcome') }}" method="post">
+        <h2>Sign Up</h2>
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <button type="submit">Sign Up</button>
+        <p>Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
+
+    </form>
+</body>
+
+</html>
